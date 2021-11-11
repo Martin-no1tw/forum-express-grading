@@ -126,6 +126,24 @@ const adminController = {
       })
     })
   },
+  toggleAdmin: (req, res) => {
+    return User.findByPk(req.params.id)
+      .then((user) => {
+        if (user.email === 'root@example.com') {
+          req.flash('error_messages', '禁止變更管理者權限')
+          return res.redirect('back')
+        }
+        user.isAdmin === false ? user.isAdmin = true : user.isAdmin = false
+        return user.update({
+          isAdmin: user.isAdmin
+        })
+          .then((user) => {
+            req.flash('success_messages', '使用者權限變更成功')
+            res.redirect('/admin/users')
+          })
+      })
+      .catch(err => console.log(err))
+  },
   putUsers: (req, res) => {
     return User.findByPk(req.params.id)
       .then((user) => {
