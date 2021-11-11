@@ -45,7 +45,6 @@ const userController = {
     req.logout()
     res.redirect('/signin')
   }
-
 }
 
 module.exports = userController

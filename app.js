@@ -4,12 +4,13 @@ const db = require('./models')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
-const session = require('express-session')
-const passport = require('./config/passport')
+
+const helpers = require('./_helpers')
 const app = express()
 const port = 3000
 
-
+const session = require('express-session')
+const passport = require('./config/passport')
 
 // 設定 view engine 使用 handlebars
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
