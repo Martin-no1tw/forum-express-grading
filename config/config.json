@@ -7,12 +7,14 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": "null",
-    "database": "forum",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "logging": false
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres",
+    "protocol": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    }
   },
   "travis": {
     "username": "travis",
