@@ -18,5 +18,3 @@ before_install:
 before_script:
   - sequelize db:migrate 
   - sequelize db:seed:all
-
-  origin/R01-test
