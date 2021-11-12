@@ -8,7 +8,7 @@
   },
   "production": {
     "username": "root",
-    "password": "null",
+    "password": "aA28539951",
     "database": "forum",
     "host": "127.0.0.1",
     "dialect": "mysql",
@@ -16,7 +16,7 @@
   },
   "travis": {
     "username": "travis",
-    "database": "forum_test",
+    "database": "forum",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false
