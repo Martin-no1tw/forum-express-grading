@@ -1,8 +1,15 @@
 <h1>餐廳後台</h1>
-<a href='/admin/restaurants'>Restaurants</a> |
-<a href='/admin/users'>Users</a>
-<br />
-<br />
+
+<a href='/admin/restaurants'>
+  <button type="button" class="btn btn-primary">Restaurants</button>
+</a>
+<a href='/admin/users'>
+  <button type="button" class="btn btn-success">Users</button>
+</a>
+
+<br>
+<br>
+
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -19,25 +26,11 @@
       <th scope="row">{{this.id}}</th>
       <td>{{this.name}}</td>
       <td>{{this.email}}</td>
+      <td> {{#if this.isAdmin}}admin {{else}}user {{/if}}</td>
       <td>
-        {{#if this.isAdmin }}
-        admin
-        {{else}}
-        user
-        {{/if}}
-      </td>
-      <td>
-        {{#if this.isAdmin}}
-        <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
-          <input type="hidden" name="isAdmin" value="false" />
-          <button type="submit" class="btn btn-link">set as user</button>
+        <form action="/admin/users/{{this.id}}/toggleAdmin?_method=PUT" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-link">set as {{#if this.isAdmin}} user {{else}}admin{{/if}}</button>
         </form>
-        {{else}}
-        <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
-          <input type="hidden" name="isAdmin" value="true" />
-          <button type="submit" class="btn btn-link">set as admin</button>
-        </form>
-        {{/if}}
       </td>
     </tr>
     {{/each}}
