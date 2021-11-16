@@ -13,7 +13,10 @@ const session = require('express-session')
 const passport = require('./config/passport')
 
 // 設定 view engine 使用 handlebars
-app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
+app.engine('handlebars', handlebars({
+  defaultLayout: 'main',
+  helpers: require('./config/handlebars-helpers')
+}))
 app.set('view engine', 'handlebars')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
@@ -22,6 +25,8 @@ app.use(passport.session())
 app.use(flash())
 app.use(methodOverride('_method'))
 app.use('/upload', express.static(__dirname + '/upload'))
+
+
 
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
