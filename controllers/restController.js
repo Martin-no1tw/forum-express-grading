@@ -3,9 +3,7 @@ const Restaurant = db.Restaurant
 const Category = db.Category
 const Comment = db.Comment
 const User = db.User
-
 const pageLimit = 10
-
 const restController = {
   getRestaurants: (req, res) => {
     let offset = 0
@@ -30,12 +28,12 @@ const restController = {
       const totalPage = Array.from({ length: pages }).map((item, index) => index + 1)
       const prev = page - 1 < 1 ? 1 : page - 1
       const next = page + 1 > pages ? pages : page + 1
-      // clean up restaurant data
       const data = result.rows.map(r => ({
         ...r.dataValues,
         description: r.dataValues.description.substring(0, 50),
         categoryName: r.dataValues.Category.name,
-        isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id)
+        isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id),
+        isLiked: req.user.LikedRestaurants.map(d => d.id).includes(r.id)
       }))
       Category.findAll({
         raw: true,
@@ -55,17 +53,18 @@ const restController = {
   },
   getRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id, {
-      include: [
-        Category,
-        { model: User, as: 'FavoritedUsers' },// 加入關聯資料
-        { model: Comment, include: [User] }
-      ]
+      include: [Category,
+        { model: User, as: 'FavoritedUsers' },
+        { model: User, as: 'LikedUsers' },
+        { model: Comment, include: [User] }]
     }).then(restaurant => {
       const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
+      const isLiked = restaurant.LikedUsers.map(d => d.id).includes(req.user.id)
       restaurant.increment('viewCounts')
       return res.render('restaurant', {
         restaurant: restaurant.toJSON(),
-        isFavorited: isFavorited
+        isFavorited: isFavorited,
+        isLiked: isLiked,
       })
     })
   },
@@ -96,12 +95,12 @@ const restController = {
     return Restaurant.findByPk(req.params.id, {
       include: [
         Category,
-        { model: Comment, include: [User] }]
+        { model: Comment, include: [User] }
+      ]
     })
       .then(restaurant => {
         return res.render('dashboard', { restaurant: restaurant.toJSON() })
-        //記得加.toJSON()
       })
-  }
+  },
 }
 module.exports = restController
