@@ -13,3 +13,18 @@
     </div>
   </div>
 </div>
+<br>
+<br>
+<div class="card">
+  <div class="card-header">
+    已評論餐廳
+  </div>
+  <div class="card-body">
+    {{#each comments}}
+    <a href="/restaurants/{{this.Restaurant.id}}" style="display: inline-block;">
+      <img class="img" src="{{this.Restaurant.image}}" style="width: 100px; height:100px">
+    </a>
+    {{/each}}
+  </div>
+</div>
+</div>

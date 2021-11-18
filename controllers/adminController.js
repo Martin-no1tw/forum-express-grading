@@ -146,7 +146,6 @@ const adminController = {
       return res.render('admin/users', {
         users: users
       })
-        .catch(err => console.log(err))
     })
   },
   toggleAdmin: (req, res) => {
