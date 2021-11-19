@@ -9,12 +9,13 @@ const helpers = require('./_helpers')
 const app = express()
 const port = process.env.PORT || 3000
 
-const session = require('express-session')
-const passport = require('./config/passport')
-
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
+
+const session = require('express-session')
+const passport = require('./config/passport')
+
 
 // 設定 view engine 使用 handlebars
 app.engine('handlebars', handlebars({
