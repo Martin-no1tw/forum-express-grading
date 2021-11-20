@@ -1,9 +1,7 @@
 const SequelizeMock = require('sequelize-mock')
 const proxyquire = require('proxyquire')
 const sinon = require('sinon')
-
 const dbMock = new SequelizeMock()
-
 const createModelMock = (name, defaultValue, data, joinedTableName) => {
   const mockModel = dbMock.define(name, defaultValue, {
     instanceMethods: {
@@ -13,7 +11,6 @@ const createModelMock = (name, defaultValue, data, joinedTableName) => {
       }
     }
   });
-
   // 模擬 Sequelize 行為
   // 將 mock user db 中的 findByPK 用 findOne 取代 (sequelize mock not support findByPK)
   mockModel.findByPk = (id) => mockModel.findOne({ where: { id: id } })
@@ -21,7 +18,6 @@ const createModelMock = (name, defaultValue, data, joinedTableName) => {
   mockModel.count = () => 1
   // 因為 mock 中的 create 有問題，因此指向 upsert function, 這樣可以在 useHandler 中取得 create 呼叫
   mockModel.create = mockModel.upsert
-
   // modify middleware
   if (joinedTableName) {
     mockModel.$queryInterface.$useHandler((query, queryOptions) => {
@@ -58,7 +54,6 @@ const createModelMock = (name, defaultValue, data, joinedTableName) => {
         return Promise.resolve(mockModel.build(data))
       } else if (query === 'findAll') {
         // 回傳模擬資料
-        // 回傳模擬資料
         if (!data) { return mockModel.build([defaultValue]); }
         return Promise.resolve(data ? data.map(d => mockModel.build(d)) : [])
       } else if (query === 'destroy') {
@@ -71,18 +66,14 @@ const createModelMock = (name, defaultValue, data, joinedTableName) => {
       }
     });
   }
-
   return mockModel;
 }
-
 const createControllerProxy = (path, model) => {
   const controller = proxyquire(path, {
     '../models': model
   });
-
   return controller;
 }
-
 const mockRequest = (query) => {
   return {
     ...query,
@@ -95,7 +86,6 @@ const mockResponse = () => {
     render: sinon.spy(),
   }
 }
-
 module.exports = {
   createModelMock,
   createControllerProxy,
