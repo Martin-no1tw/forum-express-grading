@@ -19,7 +19,19 @@ const categoryService = {
         return res.render('admin/categories', callback({ categories: categories }))
       }
     })
-  }
+  },
+  postCategory: (req, res, callback) => {
+    if (!req.body.name) {
+      return callback({ status: 'error', message: "name didn\'t exist" })
+    } else {
+      return Category.create({
+        name: req.body.name
+      })
+        .then((category) => {
+          callback({ status: 'success', message: "" })
+        })
+    }
+  },
 }
 
 
