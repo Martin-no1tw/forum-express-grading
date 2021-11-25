@@ -7,17 +7,7 @@ const categoryService = {
       raw: true,
       nest: true
     }).then(categories => {
-      if (req.params.id) {
-        Category.findByPk(req.params.id)
-          .then((category) => {
-            return res.render('admin/categories', callback({
-              categories: categories,
-              category: category.toJSON()
-            }))
-          })
-      } else {
-        return res.render('admin/categories', callback({ categories: categories }))
-      }
+      callback({ categories: categories })
     })
   },
   postCategory: (req, res, callback) => {
@@ -29,6 +19,19 @@ const categoryService = {
       })
         .then((category) => {
           callback({ status: 'success', message: "" })
+        })
+    }
+  },
+  putCategory: (req, res, callback) => {
+    if (!req.body.name) {
+      return callback({ status: 'error', message: "name didn\'t exist" })
+    } else {
+      return Category.findByPk(req.params.id)
+        .then((category) => {
+          category.update(req.body)
+            .then((category) => {
+              callback({ status: 'success', message: "" })
+            })
         })
     }
   },
