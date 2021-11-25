@@ -4,6 +4,7 @@ const router = express.Router()
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
+const userController = require('../controllers/api/userController.js')
 const adminController = require('../controllers/api/adminController.js')
 const categoryController = require('../controllers/api/categoryController.js')
 
@@ -18,5 +19,7 @@ router.delete('/admin/categories/:id', categoryController.deleteCategory)
 router.post('/admin/restaurants', upload.single('image'), adminController.postRestaurant)
 router.put('/admin/restaurants/:id', upload.single('image'), adminController.putRestaurant)
 router.delete('/admin/restaurants/:id', adminController.deleteRestaurant)
+
+router.post('/signin', userController.signIn)
 
 module.exports = router
