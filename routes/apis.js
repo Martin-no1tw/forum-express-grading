@@ -33,5 +33,6 @@ router.put('/admin/restaurants/:id', authenticated, authenticatedAdmin, upload.s
 router.delete('/admin/restaurants/:id', authenticated, authenticatedAdmin, adminController.deleteRestaurant)
 
 router.post('/signin', userController.signIn)
+router.post('/signup', userController.signUp)
 
 module.exports = router
